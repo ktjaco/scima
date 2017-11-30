@@ -1,0 +1,117 @@
+   
+   #scc-map {
+    position: relative;
+	display: block;
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+    margin: 0px;
+	font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+   } 
+   
+#inputs,
+#errors,
+#directions {
+	position: absolute;
+	width: 33.3333%;
+	max-width: 300px;
+	min-width: 200px;
+}
+
+#inputs {
+	z-index: 10;
+	top: 83%;
+	left: 10px;
+}
+
+#directions {
+	z-index: 99;
+	background: rgba(0,0,0,.8);
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+#errors {
+	z-index: 8;
+	opacity: 0;
+	padding: 10px;
+	border-radius: 0 0 3px 3px;
+	background: rgba(0,0,0,.25);
+	top: 90px;
+	left: 10px;
+}
+
+.foo {
+  float: left;
+  width: 15px;
+  height: 15px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.circle {
+	border-radius: 100%;
+	float: left;
+	width: 13px;
+	height: 13px;
+	margin: 5px;
+	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.red {
+  background: #b43535;
+}
+
+.yellow {
+  background: #ffc300;
+}
+
+.pink {
+  background: #fd14e1;
+}
+
+.blue {
+  background: #0000ff;
+}
+
+.marker-cluster { 
+	background-color:#f88484;
+	color:#fff;
+	background-clip:border-box
+	}
+	
+.marker-cluster div { 
+	background-color:#f33535
+	}
+			
+.marker-cluster-medium { 
+	border-radius:25px 
+	}
+			
+.marker-cluster-medium div {
+	width:40px;
+	height:40px;
+	border-radius:20px
+	}
+			
+.marker-cluster-medium div span {
+	line-height:40px;
+	font-size:1.2em
+	}
+			
+.marker-cluster-large {
+	border-radius:30px
+	}
+			
+.marker-cluster-large div {
+	width:50px;
+	height:50px;
+	border-radius:25px
+	}
+		
+.marker-cluster-large div span {
+	line-height:50px;
+	font-size:1.4em
+	}

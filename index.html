@@ -1,0 +1,126 @@
+
+<html>
+
+<head>
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  
+  <title>Service Canada Points of Service</title>
+  
+  <meta charset=utf-8 name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ 
+  <link rel="stylesheet" href="mapbox.css"/>
+  
+  <link rel="stylesheet" href="css/leaflet-routing-machine.css" />
+  
+  <link rel="stylesheet" href="css/MarkerCluster.css" />
+  <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/L.Icon.Pulse.css"/>
+  
+  <script src="mapbox.js"></script>
+  
+  <script src="js/leaflet.markercluster.js"></script>
+  <script src="js/leaflet-hash.js"></script>
+  <script src="js/leaflet-routing-machine.js"></script>
+  <script src="js/Control.Geocoder.js"></script>
+  <script src="js/L.Icon.Pulse.js"></script>
+  
+  <script type="text/javascript" src="js/Leaflet.Icon.Glyph.js"></script>
+  
+  <script src='sites/SCC_Nov2017.geojson' type="text/javascript"></script>
+  <script src='sites/SO_Nov2017.geojson' type="text/javascript"></script>
+  <script src='sites/PTSCC_Nov2017.geojson' type="text/javascript"></script>
+  <script src='sites/PPT_Nov2017.geojson' type="text/javascript"></script>
+  
+</head>
+
+
+<style>
+
+
+#loader {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 98%;
+	background: rgba(255, 255, 255, 1);
+	transition: background 1s ease-out;
+	-webkit-transition: background 1s ease-out;
+	z-index: 9999;
+	border-radius: 8px;
+}
+
+#loader.done {
+	background: rgba(255, 255, 255, 0);
+}
+
+#loader.hide {
+	display: none;
+}
+
+#loader .message {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+</style>
+
+
+
+<body>
+  
+  <div id="scc-map" ></div>
+  <div id="loader"><div class="message">Loading...</div></div>
+  
+  <script src="scc-map.js"></script>
+  
+  <script>
+  
+  	function startLoading() {
+		loader.className = '';
+	}
+
+	function finishedLoading() {
+		// first, toggle the class 'done', which makes the loading screen
+		// fade out
+		loader.className = 'done';
+		setTimeout(function() {
+			// then, after a half-second, add the class 'hide', which hides
+			// it completely and ensures that the user can interact with the
+			// map again.
+			loader.className = 'hide';
+		}, 500);
+	}
+  
+	
+	//-Grayscale styles
+	//-Default English
+	var lang = 'en';
+	var mapStyle= 'mapbox://styles/kentjacobs/cj8bl5sb57dnv2rkswq3wu3e7';
+	//-French
+	if(lang=='fr')mapStyle='mapbox://styles/kentjacobs/cj8bl5sb57dnv2rkswq3wu3e7';
+	
+	
+  var sccObj = {
+			accessToken:'pk.eyJ1Ijoia2VudGphY29icyIsImEiOiJjaWVuMnFhc28wNTFhc2trbTM5dnEzMXZ4In0.HSUSlMda2NRz4MCBY2JnxQ',
+			lat:64.26,
+			lng:-88.77,
+			mapStyle:'mapbox://styles/kentjacobs/cjamh4j5idm5k2roatf4qqmx4',
+			mapDiv:'scc-map',
+			zoom:4,
+ 			minZoom:3,
+ 			maxZoom:11
+	}
+  
+ 	 sccMap(sccObj);
+  
+  </script>
+  
+
+
+</body>
+
+</html>
