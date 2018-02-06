@@ -2,16 +2,18 @@ function sccMap(sccObj){
 
 	// start the loading screen
 	startLoading();
-	
+
+	window.location.href = "http://www.servicecanada.gc.ca/tbsc-fsco/sc-hme.jsp";
+
 	// mapbox access token
 	L.mapbox.accessToken = sccObj.accessToken;
-	
+
 	// service canada layers
 	var scc = new L.LayerGroup();
 	var so = new L.LayerGroup();
 	var ptscc = new L.LayerGroup();
 	var ppt = new L.LayerGroup();
-	
+
 	// create a marker cluster group
 	var clusters = L.markerClusterGroup({
 		showCoverageOnHover: false,
@@ -31,19 +33,19 @@ function sccMap(sccObj){
 		// options
 		spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true
 	});
-	
+
 	// function onMapLoad() {
 		// alert("Map successfully loaded")
 	// };
-	
+
 	// initalize the map
 	var map = L.mapbox.map(sccObj.mapDiv, null, {
 		attributionControl:{compact: true},
 		zoomControl: false
 	});
-	
+
 	//map.on('load', onMapLoad);
-	
+
 	map.setView([sccObj.lat, sccObj.lng], sccObj.zoom);
 
 	map.legendControl.addLegend('<strong><b><font size="4.5px"><div align="center">Legend</div></font></b></strong>'
@@ -52,10 +54,10 @@ function sccMap(sccObj){
 								+'<br><div class="circle yellow"></div><b><font color="#ffc300" font size="3px">Scheduled Outreach</font></b><br>'
 								+'<br><div class="circle pink"></div><b><font color="#fd14e1" font size="3px">Part-Time Service Canada Centre</font></b><br>'
 								+'<br><div class="circle blue"></div><b><font color="#0000ff" font size="3px">Passport Canada</font></b>');
-	
+
 	// set mapbox/OSM attribution to the bottom left
 	map.attributionControl.setPosition('bottomleft');
-	
+
 // add a scale to the map
 	var scale = L.control.scale({
 		position: 'bottomleft',
@@ -70,11 +72,11 @@ function sccMap(sccObj){
 			keepOpen: false,
 			autocomplete: true
 		}).addTo(map);
-	
+
 	geocoderControl.on('select', function(object){
-		
+
 		var coord = object.feature.geometry.coordinates;
-// create a marker for geocoder search result 
+// create a marker for geocoder search result
 		var result = L.mapbox.featureLayer({
 			type: 'Feature',
 			geometry: {
@@ -88,19 +90,19 @@ function sccMap(sccObj){
 				'marker-color': '#000000'
 			}
 		}).addTo(map);
-		
+
 
 // right click event when the search result is place on the map
 		result.on('contextmenu', function(e) {
 			var container = L.DomUtil.create('div'),
 				routeDepart = routeHereDepart('<font color="green" font size="5.5px">A</font>', container);
 				routeArrival = routeHereArrival('<font color="red" font size="5.5px">B</font>', container);
-		
+
 					L.DomEvent.on(routeDepart, 'click', function() {
 					mapboxRouting.spliceWaypoints(0, 1, e.latlng);
 					map.closePopup();
 					});
-					
+
 					L.DomEvent.on(routeArrival, 'click', function() {
 					mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints().length - 1, 1, e.latlng);
 					map.closePopup();
@@ -116,22 +118,22 @@ function sccMap(sccObj){
 				.setContent(container)
 				.setLatLng(e.latlng, {offset:[-25, -25]})
 				.openOn(map);
-			
+
 		});
 	});
 
-// 
+//
 	var zoom = new L.Control.Zoom({
 		position: 'topright'
 	}).addTo(map);
 
-// create a red icon for scc points		
+// create a red icon for scc points
 	var red = new L.mapbox.marker.icon({
                 'marker-color': '#b43535',
 				'marker-size': 'medium'
             });
 
-// create a yellow icon for so points			
+// create a yellow icon for so points
 	var yellow = new L.mapbox.marker.icon({
                 'marker-color': '#ffc300',
 				'marker-size': 'medium'
@@ -142,16 +144,16 @@ function sccMap(sccObj){
                 'marker-color': '#fd14e1',
 				'marker-size': 'medium'
             });
-			
+
 // create a blue icon for ppt
 	var blue = new L.mapbox.marker.icon({
                 'marker-color': '#0000ff',
 				'marker-size': 'medium'
             });
-		
 
-		
-// display the scc points using geojson file	
+
+
+// display the scc points using geojson file
 	var scc_map = L.geoJson(SCC_Nov2017,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
@@ -161,7 +163,7 @@ function sccMap(sccObj){
 		},
 
 		// display popup attribute information from the geojson file
-		onEachFeature: function (feature, layer) {    
+		onEachFeature: function (feature, layer) {
 		  var popupContent = '<strong>'+feature.properties.Site_Type+'</strong>'+
 								'<br>'+'<a href="http://www.servicecanada.gc.ca/tbsc-fsco/sc-dsp.jsp?rc=' + feature.properties.POSUI + '&lang=eng" target="_blank">More Info</a>'+
 								'<br>'+'<img src="http://www.servicecanada.gc.ca/profiles/images/bldg/bldg_' + feature.properties.POSUI + '.jpg" onerror="this.src=&#39;images/notavail.jpg&#39;;" width="120" height="90" />'+
@@ -178,35 +180,35 @@ function sccMap(sccObj){
 
 // right click event to route to and from points of service
 	scc_map.on('contextmenu', function(e) {
-		
+
 			var container = L.DomUtil.create('div'),
-		
+
 			routeDepart = routeHereDepart('<font color="green" font size="5.5px">A</font>', container);
 			routeArrival = routeHereArrival('<font color="red" font size="5.5px">B</font>', container);
-		
+
 					L.DomEvent.on(routeDepart, 'click', function() {
 					mapboxRouting.spliceWaypoints(0, 1, e.latlng);
 					map.closePopup();
 					});
-					
+
 					L.DomEvent.on(routeArrival, 'click', function() {
 					mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints().length - 1, 1, e.latlng);
 					map.closePopup();
 					});
-			
+
 			var options = {
 				offset:  new L.Point(1, -20)
 			};
-			
+
 			var popup = L.popup(options)
 				.setContent(container)
 				.setLatLng(e.latlng, {offset:[-25, -25]})
 				.openOn(map);
-			
+
 	});
 
-	
-	
+
+
 	// display the so points using geojson file
 	var so_map = L.geoJson(SO_Nov2017,{
 		pointToLayer: function(feature, latlng) {
@@ -217,7 +219,7 @@ function sccMap(sccObj){
 			},
 
 		// display popup attribute information from the geojson file
-		onEachFeature: function (feature, layer) {    
+		onEachFeature: function (feature, layer) {
 		  var popupContent = '<strong>'+feature.properties.Site_Type+'</strong>'+
 								'<br>'+'<a href="http://www.servicecanada.gc.ca/tbsc-fsco/sc-dsp.jsp?rc=' + feature.properties.POSUI + '&lang=eng" target="_blank">More Info</a>'+
 								'<br>'+'<img src="http://www.servicecanada.gc.ca/profiles/images/bldg/bldg_' + feature.properties.POSUI + '.jpg" onerror="this.src=&#39;images/notavail.jpg&#39;;" width="120" height="90" />'+
@@ -234,34 +236,34 @@ function sccMap(sccObj){
 
 // right click event to route to and from points of service
 	so_map.on('contextmenu', function(e) {
-		
+
 			var container = L.DomUtil.create('div'),
-		
+
 			routeDepart = routeHereDepart('<font color="green" font size="5.5px">A</font>', container);
 			routeArrival = routeHereArrival('<font color="red" font size="5.5px">B</font>', container);
-		
+
 					L.DomEvent.on(routeDepart, 'click', function() {
 					mapboxRouting.spliceWaypoints(0, 1, e.latlng);
 					map.closePopup();
 					});
-					
+
 					L.DomEvent.on(routeArrival, 'click', function() {
 					mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints().length - 1, 1, e.latlng);
 					map.closePopup();
 					});
-			
+
 			var options = {
 				offset:  new L.Point(1, -20)
 			};
-			
+
 			var popup = L.popup(options)
 				.setContent(container)
 				.setLatLng(e.latlng, {offset:[-25, -25]})
 				.openOn(map);
-			
-			
+
+
 	});
-	
+
 	var ptscc_map = L.geoJson(PTSCC_Nov2017,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
@@ -271,7 +273,7 @@ function sccMap(sccObj){
 			},
 
 		// display popup attribute information from the geojson file
-		onEachFeature: function (feature, layer) {    
+		onEachFeature: function (feature, layer) {
 		  var popupContent = '<strong>'+feature.properties.Site_Type+'</strong>'+
 								'<br>'+'<a href="http://www.servicecanada.gc.ca/tbsc-fsco/sc-dsp.jsp?rc=' + feature.properties.POSUI + '&lang=eng" target="_blank">More Info</a>'+
 								'<br>'+'<img src="http://www.servicecanada.gc.ca/profiles/images/bldg/bldg_' + feature.properties.POSUI + '.jpg" onerror="this.src=&#39;images/notavail.jpg&#39;;" width="120" height="90" />'+
@@ -288,34 +290,34 @@ function sccMap(sccObj){
 
 // right click event to route to and from points of service
 	ptscc_map.on('contextmenu', function(e) {
-		
+
 			var container = L.DomUtil.create('div'),
-		
+
 			routeDepart = routeHereDepart('<font color="green" font size="5.5px">A</font>', container);
 			routeArrival = routeHereArrival('<font color="red" font size="5.5px">B</font>', container);
-		
+
 					L.DomEvent.on(routeDepart, 'click', function() {
 					mapboxRouting.spliceWaypoints(0, 1, e.latlng);
 					map.closePopup();
 					});
-					
+
 					L.DomEvent.on(routeArrival, 'click', function() {
 					mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints().length - 1, 1, e.latlng);
 					map.closePopup();
 					});
-			
+
 			var options = {
 				offset:  new L.Point(1, -20)
 			};
-			
+
 			var popup = L.popup(options)
 				.setContent(container)
 				.setLatLng(e.latlng, {offset:[-25, -25]})
 				.openOn(map);
-			
-			
+
+
 	});
-	
+
 	var ppt_map = L.geoJson(PPT_Nov2017,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
@@ -325,7 +327,7 @@ function sccMap(sccObj){
 			},
 
 		// display popup attribute information from the geojson file
-		onEachFeature: function (feature, layer) {    
+		onEachFeature: function (feature, layer) {
 		  var popupContent = '<strong>'+feature.properties.Site_Type+'</strong>'+
 								'<br>'+'<a href="http://www.servicecanada.gc.ca/tbsc-fsco/sc-dsp.jsp?rc=' + feature.properties.POSUI + '&lang=eng" target="_blank">More Info</a>'+
 								'<br>'+'<img src="http://www.servicecanada.gc.ca/profiles/images/bldg/bldg_' + feature.properties.POSUI + '.jpg" onerror="this.src=&#39;images/notavail.jpg&#39;;" width="120" height="90" />'+
@@ -342,41 +344,41 @@ function sccMap(sccObj){
 
 // right click event to route to and from points of service
 	ppt_map.on('contextmenu', function(e) {
-		
+
 			var container = L.DomUtil.create('div'),
-		
+
 			routeDepart = routeHereDepart('<font color="green" font size="5.5px">A</font>', container);
 			routeArrival = routeHereArrival('<font color="red" font size="5.5px">B</font>', container);
-		
+
 					L.DomEvent.on(routeDepart, 'click', function() {
 					mapboxRouting.spliceWaypoints(0, 1, e.latlng);
 					map.closePopup();
 					});
-					
+
 					L.DomEvent.on(routeArrival, 'click', function() {
 					mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints().length - 1, 1, e.latlng);
 					map.closePopup();
 					});
-			
+
 			var options = {
 				offset:  new L.Point(1, -20)
 			};
-			
+
 			var popup = L.popup(options)
 				.setContent(container)
 				.setLatLng(e.latlng, {offset:[-25, -25]})
 				.openOn(map);
-			
-			
+
+
 	});
-	
+
 	clusters.addLayer(scc_map);
 	clusters.addLayer(so_map);
 	clusters.addLayer(ptscc_map);
 	clusters.addLayer(ppt_map);
-	
+
 	map.addLayer(clusters);
-	
+
 // add layers control to display tile styles, and map features
 	// var layerSwitcher = L.control.layers({
 		// 'Mapbox': 	L.mapbox.styleLayer(sccObj.mapStyle).addTo(map).on('load', finishedLoading)
@@ -387,7 +389,7 @@ function sccMap(sccObj){
 	// },{
 		// position: 'topleft'
 	// }).addTo(map);
-	
+
 
 
 
@@ -397,53 +399,53 @@ function sccMap(sccObj){
 			var container = L.Routing.Plan.prototype.createGeocoders.call(this),
 
 				//http://gis.stackexchange.com/questions/193235/leaflet-routing-machine-how-to-dinamically-change-router-settings
-				
+
 				// Create a button for google geocoding
 				googleButton = createGoogleButton('<img src="images/google.png" width="20px"'+
 							'style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
-				
+
 				mapboxButton = createMapboxButton('<img src="images/mapbox.png" width="20px"'+
 							'style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
-				
+
 				reverseButton = createReverseButton('<img src="images/reverse.png" width="20px"'+
 							'style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
-				
+
 				// Create a button for walking routes
-				walkButton = createWalkButton('<img src="images/walk.png" width="20px"'+ 
+				walkButton = createWalkButton('<img src="images/walk.png" width="20px"'+
 							' style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
 
 				// Create a button for biking routes
-				bikeButton = createBikeButton('<img src="images/bicycle.png" width="20px"'+ 
+				bikeButton = createBikeButton('<img src="images/bicycle.png" width="20px"'+
 							' style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
 
 				// Create a button for driving routes
-				carButton = createCarButton('<img src="images/car.png" width="20px"'+ 
+				carButton = createCarButton('<img src="images/car.png" width="20px"'+
 						    ' style="-webkit-clip-path: inset(0 0 0px 0); -moz-clip-path: inset(0 0 0px 0); clip-path: inset(0 0 0px 0);">', container);
-			
+
 			L.DomEvent.on(googleButton, 'click', function() {
 				mapboxRouting.getPlan().options.geocoder = new L.Control.Geocoder.Google();
 				mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints());
 				console.log("Search with Google Maps");
 				}, this);
-				
+
 			L.DomEvent.on(mapboxButton, 'click', function() {
 				mapboxRouting.getPlan().options.geocoder = new L.Control.Geocoder.mapbox(sccObj.accessToken);
 				mapboxRouting.spliceWaypoints(mapboxRouting.getWaypoints());
 				console.log("Search with Mapbox");
 				}, this);
-			
+
 			L.DomEvent.on(reverseButton, 'click', function() {
 				var waypoints = this.getWaypoints();
 				this.setWaypoints(waypoints.reverse());
 				console.log("Waypoints reversed");
 				}, this);
-			
+
 			// Event to generate walking routes
 			L.DomEvent.on(walkButton, 'click', function() {
 				mapboxRouting.getRouter().options.profile = 'mapbox/walking';
 				mapboxRouting.route();
 				mapboxRouting.setWaypoints(mapboxRouting.getWaypoints());
-				console.log("Walking route");	
+				console.log("Walking route");
 				}, this);
 
 			// Event to generate biking routes
@@ -451,7 +453,7 @@ function sccMap(sccObj){
 				mapboxRouting.getRouter().options.profile = 'mapbox/cycling';
 				mapboxRouting.route();
 				mapboxRouting.setWaypoints(mapboxRouting.getWaypoints());
-				console.log("Biking route");	
+				console.log("Biking route");
 				}, this);
 
 			// Event to generate driving routes
@@ -459,13 +461,13 @@ function sccMap(sccObj){
 				mapboxRouting.getRouter().options.profile = 'mapbox/driving';
 				mapboxRouting.route();
 				mapboxRouting.setWaypoints(mapboxRouting.getWaypoints());
-				console.log("Driving route");	
+				console.log("Driving route");
 				}, this);
-	
+
 			return container;
 		    }
 });
-	
+
 // Create a plan for the routing
 	var plan = new geoPlan(
 		// Empty waypoints
@@ -473,12 +475,12 @@ function sccMap(sccObj){
 		// create a marker for routing
 		{
 			createMarker: function(i, wp) {
-				return L.marker(wp.latLng, {				
-					draggable: true,				
-					icon: L.icon.glyph({					
-						glyph: String.fromCharCode(65 + i)					
-						})				
-				}).addTo(map);	
+				return L.marker(wp.latLng, {
+					draggable: true,
+					icon: L.icon.glyph({
+						glyph: String.fromCharCode(65 + i)
+						})
+				}).addTo(map);
 			},
 			// Default geocoder
 			geocoder: new L.Control.Geocoder.mapbox(sccObj.accessToken),
@@ -491,7 +493,7 @@ function sccMap(sccObj){
 		// Call the Mapbox routing engine
 		mapboxRouting = L.Routing.control({
 			// Empty waypoints
-			waypoints: [],		
+			waypoints: [],
 			// Positioning of the routing engine in the window
 			position: 'topleft',
 			// Draggable routes
@@ -530,10 +532,10 @@ function sccMap(sccObj){
 map.addControl(mapboxRouting);
 
 
-	
+
 		// Label the buttons for right click features
 	map.on('contextmenu', function(e) {
-		
+
 		var container = L.DomUtil.create('div'),
 			// Set a starting location for Mapbox router
 			startBtn = startButton('<font color="green" font size="5.5px">A</font>', container);
@@ -557,19 +559,19 @@ map.addControl(mapboxRouting);
 			.setContent(container)
 			.setLatLng(e.latlng)
 			.openOn(map);
-		
+
 	});
-	
-	
+
+
 	//-Servo's tweaks
 	//var pulsingIcon = L.icon.pulse({iconSize:[10,10],color:'#ff3300'});
 	//var marker = L.marker([sccObj.lat,sccObj.lng],{icon: pulsingIcon}).addTo(map);
-	
+
 	L.mapbox.styleLayer(sccObj.mapStyle).addTo(map).on('load', finishedLoading)
-	
+
 }//-main function ends
 	//-RE-USABLE FUNCTIONS ========================================================================
-	
+
 	// create a button for geocoding result routing
 	function routeHereDepart(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
@@ -578,7 +580,7 @@ map.addControl(mapboxRouting);
 	    btn.title = "Set Departure Location";
 	    return btn;
 	}
-	
+
 // create a button for geocoding result routing
 	function routeHereArrival(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
@@ -587,7 +589,7 @@ map.addControl(mapboxRouting);
 	    btn.title = "Set Arrival Location";
 	    return btn;
 	}
-	
+
 	function startButton(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
 	    btn.setAttribute('type', 'button');
@@ -658,7 +660,7 @@ map.addControl(mapboxRouting);
 	    btn.title = "Search with Mapbox";
 	    return btn;
 	}
-	
+
 	// create a button for geocoding result routing
 	function routeHereDepart(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
@@ -667,7 +669,7 @@ map.addControl(mapboxRouting);
 	    btn.title = "Set Departure Location";
 	    return btn;
 	}
-	
+
 // create a button for geocoding result routing
 	function routeHereArrival(label, container) {
 	    var btn = L.DomUtil.create('button', '', container);
@@ -676,4 +678,3 @@ map.addControl(mapboxRouting);
 	    btn.title = "Set Arrival Location";
 	    return btn;
 	}
-	
