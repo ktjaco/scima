@@ -49,7 +49,7 @@ function sccMap(sccObj){
 	map.setView([sccObj.lat, sccObj.lng], sccObj.zoom);
 
 	map.legendControl.addLegend('<strong><b><font size="4.5px"><div align="center">Legend</div></font></b></strong>'
-								+'<font size="2px"><div align="center">Points of Service as of November 2017</div></font>'
+								+'<font size="2px"><div align="center">Points of Service as of January 2018</div></font>'
 								+'<br><div class="circle red"></div>'+'<b><font color="#b43535" font size="3px">Service Canada Centre</font></b><br>'
 								+'<br><div class="circle yellow"></div><b><font color="#ffc300" font size="3px">Scheduled Outreach</font></b><br>'
 								+'<br><div class="circle pink"></div><b><font color="#fd14e1" font size="3px">Part-Time Service Canada Centre</font></b><br>'
@@ -154,7 +154,7 @@ function sccMap(sccObj){
 
 
 // display the scc points using geojson file
-	var scc_map = L.geoJson(SCC_Nov2017,{
+	var scc_map = L.geoJson(SCC_Jan2018,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
         return L.marker(latlng, {
@@ -210,7 +210,7 @@ function sccMap(sccObj){
 
 
 	// display the so points using geojson file
-	var so_map = L.geoJson(SO_Nov2017,{
+	var so_map = L.geoJson(SO_Jan2018,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
         return L.marker(latlng, {
@@ -264,7 +264,7 @@ function sccMap(sccObj){
 
 	});
 
-	var ptscc_map = L.geoJson(PTSCC_Nov2017,{
+	var ptscc_map = L.geoJson(PTSCC_Jan2018,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
         return L.marker(latlng, {
@@ -318,7 +318,7 @@ function sccMap(sccObj){
 
 	});
 
-	var ppt_map = L.geoJson(PPT_Nov2017,{
+	var ppt_map = L.geoJson(PPT_Jan2018,{
 		pointToLayer: function(feature, latlng) {
         //console.log(latlng, feature);
         return L.marker(latlng, {
