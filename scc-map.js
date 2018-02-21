@@ -3,7 +3,7 @@ function sccMap(sccObj){
 	// start the loading screen
 	startLoading();
 
-	window.location.href = "http://www.servicecanada.gc.ca/tbsc-fsco/sc-hme.jsp";
+	//window.location.href = "http://www.servicecanada.gc.ca/tbsc-fsco/sc-hme.jsp";
 
 	// mapbox access token
 	L.mapbox.accessToken = sccObj.accessToken;
