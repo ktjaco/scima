@@ -3670,7 +3670,7 @@ module.exports = L.Routing = {
 	'use strict';
 
 	var L = (typeof window !== "undefined" ? window.L : typeof global !== "undefined" ? global.L : null);
-	
+
 	module.exports = L.LayerGroup.extend({
 		includes: L.Mixin.Events,
 
@@ -3704,7 +3704,7 @@ module.exports = L.Routing = {
 				this.options.styles,
 				this.options.addWaypoints);
 		},
-		
+
 		getBounds: function() {
 			return L.latLngBounds(this._route.coordinates);
 		},
@@ -3942,9 +3942,9 @@ module.exports = L.Routing = {
 				return suffix[i] ? n + suffix[i] : n + 'th';
 			},
 			ui: {
-				startPlaceholder: 'Start',
+				startPlaceholder: 'Right click/Search here to add a Start location!',
 				viaPlaceholder: 'Via {viaNumber}',
-				endPlaceholder: 'End'
+				endPlaceholder: 'Right click/Search here to add an End location!'
 			},
 			units: {
 				meters: 'm',
@@ -4083,7 +4083,7 @@ module.exports = L.Routing = {
 
 		'es': spanish,
 		'sp': spanish,
-		
+
 		'nl': {
 			directions: {
 				N: 'noordelijke',
