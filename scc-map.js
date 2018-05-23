@@ -70,7 +70,8 @@ function sccMap(sccObj){
 // add geocoder to the map
 	var geocoderControl = L.mapbox.geocoderControl('mapbox.places', {
 			keepOpen: false,
-			autocomplete: true
+			autocomplete: true,
+			position: 'topright'
 		}).addTo(map);
 
 	geocoderControl.on('select', function(object){
@@ -507,24 +508,22 @@ function sccMap(sccObj){
 			// Use the created plan for Mapbox routing
 			plan: plan,
 			// Show the routing icon on a reloaded window
-			show: false,
+			show: true,
 			// Enable the box to be collapsed
 			collapsible: true,
+			// Line options,
+			lineOptions: {
+      styles: [{
+				color: 'red',
+				opacity: 1,
+				weight: 8}]
+			},
 			// Alternative line styles
 			altLineOptions: {
 			styles: [{
-				color: 'black',
-				opacity: 0.15,
-				weight: 9
-
-			}, {
-				color: 'white',
-				opacity: 0.8,
-				weight: 6
-			}, {
 				color: 'blue',
-				opacity: 0.5,
-				weight: 2
+				opacity: 1,
+				weight: 8
 			}]
 			}
 	});
