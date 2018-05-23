@@ -3942,9 +3942,9 @@ module.exports = L.Routing = {
 				return suffix[i] ? n + suffix[i] : n + 'th';
 			},
 			ui: {
-				startPlaceholder: 'Right click map/Search here to add a Start location!',
+				startPlaceholder: 'Start! Right click map or Search.',
 				viaPlaceholder: 'Via {viaNumber}',
-				endPlaceholder: 'Right click map/Search here to add an End location!'
+				endPlaceholder: 'End! Right click map or Search'
 			},
 			units: {
 				meters: 'm',
